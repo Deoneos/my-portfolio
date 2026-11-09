@@ -157,20 +157,130 @@
 
         footer { padding: 50px 0; text-align: center; color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; border-top: 1px solid var(--border); }
 
-        /* Печать PDF */
+        /* ===== ИДЕАЛЬНАЯ ВЕРСТКА ДЛЯ ПЕЧАТИ (PDF) ===== */
         @media print {
-            body { background: white !important; color: black !important; }
-            .cursor, .terminal, .contact-btn, .bg-grid, .status-badge, .magnetic, button, .project-links, footer { display: none !important; }
-            h1 { color: black !important; -webkit-text-fill-color: black !important; margin-top: 0; }
-            .subtitle { color: #333 !important; }
-            .job-company { color: #0066cc !important; }
-            .section-title { color: black !important; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-            .job-desc ul, .edu-sub { color: #444 !important; }
-            .job-date { border: 1px solid #ccc; color: #333; }
-            .job::before { border-color: #333; box-shadow: none; }
-            .timeline-line-active { background: #333 !important; transform: scaleY(1) !important; }
-            .skill { border: 1px solid #ccc; color: #333; background: transparent; }
-            .project-card { border: 1px solid #ccc; background: transparent; box-shadow: none; border-left-color: #333; }
+            @page { 
+                margin: 15mm; 
+                size: A4; 
+            }
+            body { 
+                background: white !important; 
+                color: black !important; 
+                font-size: 11pt; 
+                line-height: 1.4; 
+            }
+            .container { 
+                max-width: 100% !important; 
+                padding: 0 !important; 
+            }
+            /* Скрываем все интерактивные и лишние элементы */
+            .cursor, .terminal, .contact-btn, .bg-grid, .status-badge, 
+            .magnetic, button, .project-links, footer, .section-num, 
+            .timeline-line, .timeline-line-active, .job::before { 
+                display: none !important; 
+            }
+            
+            /* Шапка */
+            header { 
+                height: auto !important; 
+                padding: 0 0 20px 0 !important; 
+                display: block !important; 
+            }
+            h1 { 
+                font-size: 32pt !important; 
+                margin: 0 0 5px 0 !important; 
+                color: black !important; 
+                -webkit-text-fill-color: black !important; 
+            }
+            .subtitle { 
+                font-size: 14pt !important; 
+                color: #333 !important; 
+                margin-bottom: 15px !important; 
+                font-family: 'Inter', sans-serif !important; 
+            }
+            
+            /* Секции */
+            section { 
+                padding: 15px 0 !important; 
+            }
+            .section-title { 
+                font-size: 16pt !important; 
+                margin-bottom: 15px !important; 
+                border-bottom: 2px solid #333 !important; 
+                padding-bottom: 5px !important; 
+                color: black !important; 
+            }
+            
+            /* Опыт работы */
+            .timeline { 
+                padding-left: 0 !important; 
+            }
+            .job { 
+                margin-bottom: 15px !important; 
+                page-break-inside: avoid; /* Не разрывать блок при переходе на новую страницу */
+            }
+            .job-header { 
+                display: block !important; 
+                margin-bottom: 5px !important; 
+            }
+            .job-title { 
+                font-size: 13pt !important; 
+                color: black !important; 
+            }
+            .job-company { 
+                font-size: 11pt !important; 
+                color: #0066cc !important; 
+                font-family: 'Inter', sans-serif !important; 
+            }
+            .job-date { 
+                display: inline-block !important; 
+                font-size: 10pt !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin-bottom: 5px; 
+                color: #555 !important; 
+                background: transparent !important; 
+            }
+            .job-desc ul { 
+                color: black !important; 
+                margin-top: 5px !important; 
+            }
+            .job-desc li { 
+                font-size: 10.5pt !important; 
+                margin-bottom: 3px !important; 
+                padding-left: 15px !important;
+                color: #333 !important;
+            }
+            .job-desc li::before { 
+                content: '•' !important; 
+                color: #333 !important; 
+            }
+            
+            /* Навыки */
+            .skills { 
+                gap: 5px !important; 
+            }
+            .skill { 
+                font-size: 10pt !important; 
+                padding: 3px 8px !important; 
+                border: 1px solid #999 !important; 
+                background: transparent !important; 
+                color: black !important; 
+            }
+            
+            /* Проекты и Образование */
+            .project-card, .edu-card { 
+                border: 1px solid #ccc !important; 
+                padding: 15px !important; 
+                margin-bottom: 15px !important; 
+                background: transparent !important; 
+                page-break-inside: avoid; 
+            }
+            .project-card { 
+                border-left: 3px solid #333 !important; 
+            }
+            .edu-title { color: black !important; font-size: 12pt !important; }
+            .edu-sub { color: #333 !important; font-size: 10.5pt !important; }
         }
 
         /* Пасхалка Hacker Mode */
