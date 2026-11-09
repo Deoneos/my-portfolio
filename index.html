@@ -33,29 +33,19 @@
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            background-color: var(--bg); color: var(--text);
+            font-family: 'Inter', sans-serif; line-height: 1.6;
+            overflow-x: hidden; -webkit-font-smoothing: antialiased;
+            transition: opacity 0.3s ease;
         }
 
-        /* Кастомный курсор */
         .cursor {
-            width: 20px; height: 20px;
-            border: 1px solid var(--accent);
-            border-radius: 50%;
+            width: 20px; height: 20px; border: 1px solid var(--accent); border-radius: 50%;
             position: fixed; pointer-events: none; z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background-color 0.3s;
-            mix-blend-mode: difference;
+            transition: width 0.3s, height 0.3s, background-color 0.3s; mix-blend-mode: difference;
         }
-        .cursor.hovering {
-            width: 60px; height: 60px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: transparent;
-        }
+        .cursor.hovering { width: 60px; height: 60px; background-color: rgba(255, 255, 255, 0.1); border-color: transparent; }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
 
@@ -67,21 +57,21 @@
 
         header { height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
 
-        /* Статус Бейдж */
+        .top-bar { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; margin-bottom: 20px; }
+
         .status-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(39, 201, 63, 0.1); border: 1px solid rgba(39, 201, 63, 0.3);
-            color: #27c93f; padding: 6px 12px; border-radius: 20px;
-            font-family: 'JetBrains Mono', monospace; font-size: 12px; margin-bottom: 20px; align-self: flex-start;
+            display: inline-flex; align-items: center; gap: 8px; background: rgba(39, 201, 63, 0.1);
+            border: 1px solid rgba(39, 201, 63, 0.3); color: #27c93f; padding: 6px 12px; border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
         }
         .status-dot { width: 8px; height: 8px; background-color: #27c93f; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0.7); }
-            70% { box-shadow: 0 0 0 6px rgba(39, 201, 63, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0); }
-        }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(39, 201, 63, 0); } 100% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0); } }
 
-        /* Интерактивный терминал */
+        /* Переключатель языка */
+        .lang-switch { display: flex; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 14px; }
+        .lang-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-family: inherit; font-size: inherit; transition: color 0.3s; }
+        .lang-btn:hover, .lang-btn.active { color: var(--accent); font-weight: bold; text-shadow: 0 0 10px var(--accent-glow); }
+
         .terminal {
             background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
             padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 14px;
@@ -90,30 +80,16 @@
         .terminal-header { display: flex; gap: 8px; margin-bottom: 15px; }
         .dot { width: 12px; height: 12px; border-radius: 50%; }
         .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
-        
         .terminal-output { color: var(--muted); margin-bottom: 8px; white-space: pre-wrap; line-height: 1.4; }
         .terminal-input-wrapper { display: flex; align-items: center; }
         .terminal-prompt { color: var(--accent); }
-        .terminal-input {
-            background: transparent; border: none; color: var(--accent);
-            font-family: 'JetBrains Mono', monospace; font-size: 14px;
-            outline: none; width: 100%; margin-left: 8px;
-        }
+        .terminal-input { background: transparent; border: none; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; width: 100%; margin-left: 8px; }
 
-        h1 {
-            font-size: clamp(3rem, 8vw, 6rem); font-weight: 600; letter-spacing: -0.05em; line-height: 1.1; margin-top: 40px;
-            background: linear-gradient(90deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
+        h1 { font-size: clamp(3rem, 8vw, 6rem); font-weight: 600; letter-spacing: -0.05em; line-height: 1.1; margin-top: 40px; background: linear-gradient(90deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .subtitle { font-size: 1.2rem; color: var(--muted); margin-bottom: 40px; font-family: 'JetBrains Mono', monospace; }
 
         .btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
-        .contact-btn {
-            display: inline-flex; align-items: center; gap: 10px; background: transparent;
-            border: 1px solid var(--accent); color: var(--accent); padding: 12px 24px; border-radius: 4px;
-            text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 14px;
-            transition: all 0.3s; position: relative; overflow: hidden;
-        }
+        .contact-btn { display: inline-flex; align-items: center; gap: 10px; background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 12px 24px; border-radius: 4px; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 14px; transition: all 0.3s; position: relative; overflow: hidden; }
         .contact-btn:hover { background: var(--accent-glow); box-shadow: 0 0 20px var(--accent-glow); }
 
         section { padding: 100px 0; position: relative; z-index: 1; }
@@ -121,7 +97,6 @@
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
         .section-num { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 1rem; }
 
-        /* Таймлайн */
         .timeline { position: relative; padding-left: 30px; }
         .timeline-line { position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: var(--border); transform-origin: top; transform: scaleY(0); }
         .timeline-line-active { position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: var(--accent); transform-origin: top; transform: scaleY(0); }
@@ -137,19 +112,24 @@
         .job-desc li { position: relative; padding-left: 20px; margin-bottom: 8px; }
         .job-desc li::before { content: '>'; position: absolute; left: 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: bold; }
 
-        /* Проекты */
         .project-card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 30px; border-radius: 8px; margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; }
         .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 255, 204, 0.05); }
         .project-links { margin-top: 20px; display: flex; gap: 15px; }
         .project-link { color: var(--accent); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; border-bottom: 1px dashed var(--accent); transition: opacity 0.3s; }
         .project-link:hover { opacity: 0.7; }
 
-        /* Навыки */
+        /* Схема архитектуры */
+        .arch-scheme {
+            background: #000; border: 1px solid var(--border); border-radius: 6px;
+            padding: 15px; margin: 20px 0; font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; color: #888; overflow-x: auto; white-space: pre; line-height: 1.5;
+        }
+        .arch-scheme span.highlight { color: var(--accent); }
+
         .skills { display: flex; flex-wrap: wrap; gap: 12px; }
         .skill { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; color: var(--muted); transition: all 0.3s; }
         .skill:hover { border-color: var(--accent); color: var(--text); box-shadow: 0 0 15px var(--accent-glow); }
 
-        /* Образование */
         .edu-card { background: var(--surface); border: 1px solid var(--border); padding: 25px; border-radius: 8px; margin-bottom: 20px; transition: border-color 0.3s; }
         .edu-card:hover { border-color: var(--accent); }
         .edu-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
@@ -159,149 +139,42 @@
 
         /* ===== ИДЕАЛЬНАЯ ВЕРСТКА ДЛЯ ПЕЧАТИ (PDF) ===== */
         @media print {
-            /* Принудительно показываем все элементы, которые скрыты анимацией GSAP */
-            * { 
-                opacity: 1 !important; 
-                transform: none !important; 
-                visibility: visible !important; 
-            }
-            @page { 
-                margin: 15mm; 
-                size: A4; 
-            }
-            body { 
-                background: white !important; 
-                color: black !important; 
-                font-size: 11pt; 
-                line-height: 1.4; 
-            }
-            .container { 
-                max-width: 100% !important; 
-                padding: 0 !important; 
-            }
-            /* Скрываем все интерактивные и лишние элементы */
-            .cursor, .terminal, .contact-btn, .bg-grid, .status-badge, 
-            .magnetic, button, .project-links, footer, .section-num, 
-            .timeline-line, .timeline-line-active, .job::before { 
-                display: none !important; 
-            }
-            
-            /* Шапка */
-            header { 
-                height: auto !important; 
-                padding: 0 0 20px 0 !important; 
-                display: block !important; 
-            }
-            h1 { 
-                font-size: 32pt !important; 
-                margin: 0 0 5px 0 !important; 
-                color: black !important; 
-                -webkit-text-fill-color: black !important; 
-            }
-            .subtitle { 
-                font-size: 14pt !important; 
-                color: #333 !important; 
-                margin-bottom: 15px !important; 
-                font-family: 'Inter', sans-serif !important; 
-            }
-            
-            /* Секции */
-            section { 
-                padding: 15px 0 !important; 
-            }
-            .section-title { 
-                font-size: 16pt !important; 
-                margin-bottom: 15px !important; 
-                border-bottom: 2px solid #333 !important; 
-                padding-bottom: 5px !important; 
-                color: black !important; 
-            }
-            
-            /* Опыт работы */
-            .timeline { 
-                padding-left: 0 !important; 
-            }
-            .job { 
-                margin-bottom: 15px !important; 
-                page-break-inside: avoid; /* Не разрывать блок при переходе на новую страницу */
-            }
-            .job-header { 
-                display: block !important; 
-                margin-bottom: 5px !important; 
-            }
-            .job-title { 
-                font-size: 13pt !important; 
-                color: black !important; 
-            }
-            .job-company { 
-                font-size: 11pt !important; 
-                color: #0066cc !important; 
-                font-family: 'Inter', sans-serif !important; 
-            }
-            .job-date { 
-                display: inline-block !important; 
-                font-size: 10pt !important; 
-                border: none !important; 
-                padding: 0 !important; 
-                margin-bottom: 5px; 
-                color: #555 !important; 
-                background: transparent !important; 
-            }
-            .job-desc ul { 
-                color: black !important; 
-                margin-top: 5px !important; 
-            }
-            .job-desc li { 
-                font-size: 10.5pt !important; 
-                margin-bottom: 3px !important; 
-                padding-left: 15px !important;
-                color: #333 !important;
-            }
-            .job-desc li::before { 
-                content: '•' !important; 
-                color: #333 !important; 
-            }
-            
-            /* Навыки */
-            .skills { 
-                gap: 5px !important; 
-            }
-            .skill { 
-                font-size: 10pt !important; 
-                padding: 3px 8px !important; 
-                border: 1px solid #999 !important; 
-                background: transparent !important; 
-                color: black !important; 
-            }
-            
-            /* Проекты и Образование */
-            .project-card, .edu-card { 
-                border: 1px solid #ccc !important; 
-                padding: 15px !important; 
-                margin-bottom: 15px !important; 
-                background: transparent !important; 
-                page-break-inside: avoid; 
-            }
-            .project-card { 
-                border-left: 3px solid #333 !important; 
-            }
+            * { opacity: 1 !important; transform: none !important; visibility: visible !important; }
+            @page { margin: 15mm; size: A4; }
+            body { background: white !important; color: black !important; font-size: 11pt; line-height: 1.4; }
+            .container { max-width: 100% !important; padding: 0 !important; }
+            .cursor, .terminal, .contact-btn, .bg-grid, .status-badge, .magnetic, button, .project-links, footer, .section-num, .timeline-line, .timeline-line-active, .job::before, .lang-switch { display: none !important; }
+            header { height: auto !important; padding: 0 0 20px 0 !important; display: block !important; }
+            h1 { font-size: 32pt !important; margin: 0 0 5px 0 !important; color: black !important; -webkit-text-fill-color: black !important; }
+            .subtitle { font-size: 14pt !important; color: #333 !important; margin-bottom: 15px !important; font-family: 'Inter', sans-serif !important; }
+            section { padding: 15px 0 !important; }
+            .section-title { font-size: 16pt !important; margin-bottom: 15px !important; border-bottom: 2px solid #333 !important; padding-bottom: 5px !important; color: black !important; }
+            .timeline { padding-left: 0 !important; }
+            .job { margin-bottom: 15px !important; page-break-inside: avoid; }
+            .job-header { display: block !important; margin-bottom: 5px !important; }
+            .job-title { font-size: 13pt !important; color: black !important; }
+            .job-company { font-size: 11pt !important; color: #0066cc !important; font-family: 'Inter', sans-serif !important; }
+            .job-date { display: inline-block !important; font-size: 10pt !important; border: none !important; padding: 0 !important; margin-bottom: 5px; color: #555 !important; background: transparent !important; }
+            .job-desc ul { color: black !important; margin-top: 5px !important; }
+            .job-desc li { font-size: 10.5pt !important; margin-bottom: 3px !important; padding-left: 15px !important; color: #333 !important; }
+            .job-desc li::before { content: '•' !important; color: #333 !important; }
+            .skills { gap: 5px !important; }
+            .skill { font-size: 10pt !important; padding: 3px 8px !important; border: 1px solid #999 !important; background: transparent !important; color: black !important; }
+            .project-card, .edu-card { border: 1px solid #ccc !important; padding: 15px !important; margin-bottom: 15px !important; background: transparent !important; page-break-inside: avoid; }
+            .project-card { border-left: 3px solid #333 !important; }
             .edu-title { color: black !important; font-size: 12pt !important; }
             .edu-sub { color: #333 !important; font-size: 10.5pt !important; }
+            .arch-scheme { display: none !important; }
         }
 
         /* Пасхалка Hacker Mode */
-        body.hacker-mode {
-            --accent: #00ff00; --accent-glow: rgba(0, 255, 0, 0.3);
-            --bg: #000000; --surface: #0a0a0a; --border: #003300;
-            --text: #00ff00; --muted: #008800;
-        }
+        body.hacker-mode { --accent: #00ff00; --accent-glow: rgba(0, 255, 0, 0.3); --bg: #000000; --surface: #0a0a0a; --border: #003300; --text: #00ff00; --muted: #008800; }
         body.hacker-mode h1 { background: linear-gradient(90deg, #00ff00, #005500); -webkit-background-clip: text; }
         body.hacker-mode .bg-grid { opacity: 0.4; }
 
         @media (max-width: 768px) {
             .job-header { flex-direction: column; align-items: flex-start; }
-            .cursor { display: none; }
-            * { cursor: auto; }
+            .cursor { display: none; } * { cursor: auto; }
         }
     </style>
 </head>
@@ -311,8 +184,15 @@
 
     <div class="container">
         <header>
-            <div class="status-badge">
-                <span class="status-dot"></span> Server Status: 200 OK
+            <div class="top-bar">
+                <div class="status-badge">
+                    <span class="status-dot"></span> Server Status: 200 OK
+                </div>
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+                    <span style="color: #444;">|</span>
+                    <button class="lang-btn" onclick="setLang('en')">EN</button>
+                </div>
             </div>
             
             <div class="terminal">
@@ -328,21 +208,21 @@
                 </div>
             </div>
 
-            <h1>Захар<br>Сахаров</h1>
-            <div class="subtitle">DevOps / SysAdmin / Linux</div>
+            <h1 data-i18n="name">Захар<br>Сахаров</h1>
+            <div class="subtitle" data-i18n="role">DevOps / SysAdmin / Linux</div>
             
             <div class="btn-group">
                 <a href="https://t.me/zakharsakharov" target="_blank" class="contact-btn magnetic">Telegram</a>
                 <a href="mailto:zaharsaharov25@gmail.com" class="contact-btn magnetic">Email</a>
                 <a href="#" onclick="window.print(); return false;" class="contact-btn magnetic" style="border-color: var(--text); color: var(--text);">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Скачать PDF
+                    <span data-i18n="btn_pdf">Скачать PDF</span>
                 </a>
             </div>
         </header>
 
         <section id="experience">
-            <h2 class="section-title"><span class="section-num">01.</span> Опыт работы</h2>
+            <h2 class="section-title"><span class="section-num">01.</span> <span data-i18n="sec_exp">Опыт работы</span></h2>
             <div class="timeline">
                 <div class="timeline-line"></div>
                 <div class="timeline-line-active"></div>
@@ -350,16 +230,16 @@
                 <div class="job fade-up">
                     <div class="job-header">
                         <div>
-                            <div class="job-title">Заведующий отделом ИТ</div>
-                            <div class="job-company">Исторический парк «Россия — Моя история»</div>
+                            <div class="job-title" data-i18n="job1_title">Заведующий отделом ИТ</div>
+                            <div class="job-company" data-i18n="job1_comp">Исторический парк «Россия — Моя история»</div>
                         </div>
-                        <div class="job-date">Фев 2026 — н.в.</div>
+                        <div class="job-date" data-i18n="job1_date">Фев 2026 — н.в.</div>
                     </div>
                     <div class="job-desc">
                         <ul>
-                            <li>Управление ИТ-отделом, составление графиков и табелей, работа с охраной труда.</li>
-                            <li>Проведение закупок по 44-ФЗ, работа с ЭЦП, подписание документов в 1С (УПД).</li>
-                            <li>Курирование мероприятий, работа с CRM и Nextcloud, инвентаризация оборудования.</li>
+                            <li data-i18n="job1_desc1">Управление ИТ-отделом, составление графиков и табелей, работа с охраной труда.</li>
+                            <li data-i18n="job1_desc2">Проведение закупок по 44-ФЗ, работа с ЭЦП, подписание документов в 1С (УПД).</li>
+                            <li data-i18n="job1_desc3">Курирование мероприятий, работа с CRM и Nextcloud, инвентаризация оборудования.</li>
                         </ul>
                     </div>
                 </div>
@@ -367,16 +247,16 @@
                 <div class="job fade-up">
                     <div class="job-header">
                         <div>
-                            <div class="job-title">Системный администратор</div>
-                            <div class="job-company">Исторический парк «Россия — Моя история»</div>
+                            <div class="job-title" data-i18n="job2_title">Системный администратор</div>
+                            <div class="job-company" data-i18n="job2_comp">Исторический парк «Россия — Моя история»</div>
                         </div>
-                        <div class="job-date">Янв 2025 — Фев 2026</div>
+                        <div class="job-date" data-i18n="job2_date">Янв 2025 — Фев 2026</div>
                     </div>
                     <div class="job-desc">
                         <ul>
-                            <li>Администрирование более 300 устройств, работа с AD, Firewall, DHCP, DNS.</li>
-                            <li>Настройка сетевого оборудования (Juniper, Huawei, Unifi), настройка VLAN.</li>
-                            <li>Создание баз данных (PostgreSQL), настройка веб-серверов (Ubuntu) и сертификатов.</li>
+                            <li data-i18n="job2_desc1">Администрирование более 300 устройств, работа с AD, Firewall, DHCP, DNS.</li>
+                            <li data-i18n="job2_desc2">Настройка сетевого оборудования (Juniper, Huawei, Unifi), настройка VLAN.</li>
+                            <li data-i18n="job2_desc3">Создание баз данных (PostgreSQL), настройка веб-серверов (Ubuntu) и сертификатов.</li>
                         </ul>
                     </div>
                 </div>
@@ -384,16 +264,16 @@
                 <div class="job fade-up">
                     <div class="job-header">
                         <div>
-                            <div class="job-title">Системный администратор</div>
-                            <div class="job-company">ООО "Бери-Рули"</div>
+                            <div class="job-title" data-i18n="job3_title">Системный администратор</div>
+                            <div class="job-company" data-i18n="job3_comp">ООО "Бери-Рули"</div>
                         </div>
-                        <div class="job-date">Янв 2022 — Окт 2023</div>
+                        <div class="job-date" data-i18n="job3_date">Янв 2022 — Окт 2023</div>
                     </div>
                     <div class="job-desc">
                         <ul>
-                            <li>Настройка сетевого оборудования (Keenetic, Mikrotik), VPN, Proxy.</li>
-                            <li>Виртуализация (VMware, Virtualbox), развертывание Ubuntu Server для сайтов.</li>
-                            <li>Настройка Active Directory, общих папок, резервное копирование (AcronisTI).</li>
+                            <li data-i18n="job3_desc1">Настройка сетевого оборудования (Keenetic, Mikrotik), VPN, Proxy.</li>
+                            <li data-i18n="job3_desc2">Виртуализация (VMware, Virtualbox), развертывание Ubuntu Server для сайтов.</li>
+                            <li data-i18n="job3_desc3">Настройка Active Directory, общих папок, резервное копирование (AcronisTI).</li>
                         </ul>
                     </div>
                 </div>
@@ -401,7 +281,7 @@
         </section>
 
         <section id="skills">
-            <h2 class="section-title"><span class="section-num">02.</span> Навыки</h2>
+            <h2 class="section-title"><span class="section-num">02.</span> <span data-i18n="sec_skills">Навыки</span></h2>
             <div class="skills fade-up">
                 <span class="skill">Linux (Ubuntu)</span><span class="skill">Docker / Docker-compose</span><span class="skill">Kubernetes</span>
                 <span class="skill">GitLab CI</span><span class="skill">Bash</span><span class="skill">PostgreSQL</span>
@@ -411,24 +291,35 @@
         </section>
 
         <section id="projects">
-            <h2 class="section-title"><span class="section-num">04.</span> Избранные проекты</h2>
+            <h2 class="section-title"><span class="section-num">04.</span> <span data-i18n="sec_proj">Избранные проекты</span></h2>
             <div class="project-card fade-up">
                 <div class="job-header">
                     <div>
-                        <div class="job-title">Кустос (Kustos) — Telegram-бот для модерации</div>
-                        <div class="job-company">Fullstack / DevOps (Личный проект)</div>
+                        <div class="job-title" data-i18n="proj_title">Кустос (Kustos) — Telegram-бот для модерации</div>
+                        <div class="job-company" data-i18n="proj_comp">Fullstack / DevOps (Личный проект)</div>
                     </div>
                     <div class="job-date">2024 — н.в.</div>
                 </div>
                 <div class="job-desc" style="margin-top: 15px;">
-                    <p style="color: var(--text); margin-bottom: 15px;">
-                        Разработка и развертывание отказоустойчивого SaaS-решения для защиты Telegram-чатов от спама. Обслуживает более 10 групп с общей аудиторией.
+                    <p style="color: var(--text); margin-bottom: 15px;" data-i18n="proj_desc">
+                        Разработка и развертывание отказоустойчивого SaaS-решения для защиты Telegram-чатов от спама. Обслуживает более 10 групп.
                     </p>
+                    
+                    <div class="arch-scheme">
+[<span class="highlight">Telegram API</span>] <---> [<span class="highlight">Xray Proxy (VLESS)</span>] <---> [<span class="highlight">VM (RU)</span>]
+                                                         |
+                                                         +---> [<span class="highlight">Circuit Breaker</span>] ---> [<span class="highlight">Amvera Cloud</span>]
+                                                         |                                |
+                                                         +---> [<span class="highlight">Cloudflare Tunnel</span>] ---> [<span class="highlight">VPS (NL)</span>]
+                                                         |
+                                                         +---> [<span class="highlight">ML Filter / Tesseract OCR</span>]
+                    </div>
+
                     <ul>
-                        <li><b>Архитектура:</b> Микросервисная архитектура (Python, FastAPI, Aiogram), хранение данных в PostgreSQL/SQLite.</li>
-                        <li><b>DevOps & Сети:</b> Развертывание на Linux (Ubuntu), настройка Nginx, Docker. Обход блокировок РКН через Cloudflare Tunnel и Xray (VLESS+WS+TLS).</li>
-                        <li><b>Отказоустойчивость:</b> Реализован Circuit Breaker для автоматического переключения бота между основным и резервным серверами (Amvera / VPS).</li>
-                        <li><b>ML & OCR:</b> Внедрение ML-фильтра (Scikit-learn) для скрытого спама и Tesseract OCR для распознавания текста на картинках/GIF.</li>
+                        <li data-i18n="proj_li1"><b>Архитектура:</b> Микросервисы (Python, FastAPI, Aiogram), хранение в PostgreSQL/SQLite.</li>
+                        <li data-i18n="proj_li2"><b>DevOps & Сети:</b> Linux (Ubuntu), Nginx, Docker. Обход блокировок через Cloudflare Tunnel и Xray.</li>
+                        <li data-i18n="proj_li3"><b>Отказоустойчивость:</b> Circuit Breaker для переключения между Amvera и VPS.</li>
+                        <li data-i18n="proj_li4"><b>ML & OCR:</b> ML-фильтр (Scikit-learn) и Tesseract OCR для распознавания текста на картинках.</li>
                     </ul>
                     <div class="skills" style="margin-top: 20px;">
                         <span class="skill">Python</span><span class="skill">FastAPI</span><span class="skill">Aiogram</span>
@@ -436,23 +327,23 @@
                         <span class="skill">Xray</span><span class="skill">SQLite</span><span class="skill">Tesseract</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://t.me/ANTI_SPAM_MWKbot" target="_blank" class="project-link">[ Живой бот в Telegram ]</a>
-                        <a href="https://kustos.ru" target="_blank" class="project-link">[ Лендинг проекта ]</a>
+                        <a href="https://t.me/ANTI_SPAM_MWKbot" target="_blank" class="project-link">[ <span data-i18n="proj_link1">Живой бот</span> ]</a>
+                        <a href="https://kustos.ru" target="_blank" class="project-link">[ <span data-i18n="proj_link2">Лендинг</span> ]</a>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="education">
-            <h2 class="section-title"><span class="section-num">05.</span> Образование</h2>
+            <h2 class="section-title"><span class="section-num">05.</span> <span data-i18n="sec_edu">Образование</span></h2>
             <div class="fade-up">
                 <div class="edu-card">
-                    <div class="edu-title">Высшее (2028)</div>
-                    <div class="edu-sub">Таганрогский технологический институт ЮФУ — Прикладная математика и информатика</div>
+                    <div class="edu-title" data-i18n="edu1_title">Высшее (2028)</div>
+                    <div class="edu-sub" data-i18n="edu1_sub">Таганрогский технологический институт ЮФУ — Прикладная математика и информатика</div>
                 </div>
                 <div class="edu-card">
-                    <div class="edu-title">Среднее специальное (2023)</div>
-                    <div class="edu-sub">Лермонтовский Региональный Многопрофильный Колледж — Программирование в компьютерных системах</div>
+                    <div class="edu-title" data-i18n="edu2_title">Среднее специальное (2023)</div>
+                    <div class="edu-sub" data-i18n="edu2_sub">Лермонтовский Региональный Многопрофильный Колледж — Программирование в компьютерных системах</div>
                 </div>
             </div>
         </section>
@@ -463,12 +354,119 @@
     </div>
 
     <script>
-        // 1. Плавный скролл
+        // --- СЛОВАРИ ПЕРЕВОДОВ ---
+        const translations = {
+            'ru': {
+                'name': 'Захар<br>Сахаров',
+                'role': 'DevOps / SysAdmin / Linux',
+                'btn_pdf': 'Скачать PDF',
+                'sec_exp': 'Опыт работы',
+                'sec_skills': 'Навыки',
+                'sec_proj': 'Избранные проекты',
+                'sec_edu': 'Образование',
+                'job1_title': 'Заведующий отделом ИТ',
+                'job1_comp': 'Исторический парк «Россия — Моя история»',
+                'job1_date': 'Фев 2026 — н.в.',
+                'job1_desc1': 'Управление ИТ-отделом, составление графиков и табелей, работа с охраной труда.',
+                'job1_desc2': 'Проведение закупок по 44-ФЗ, работа с ЭЦП, подписание документов в 1С (УПД).',
+                'job1_desc3': 'Курирование мероприятий, работа с CRM и Nextcloud, инвентаризация оборудования.',
+                'job2_title': 'Системный администратор',
+                'job2_comp': 'Исторический парк «Россия — Моя история»',
+                'job2_date': 'Янв 2025 — Фев 2026',
+                'job2_desc1': 'Администрирование более 300 устройств, работа с AD, Firewall, DHCP, DNS.',
+                'job2_desc2': 'Настройка сетевого оборудования (Juniper, Huawei, Unifi), настройка VLAN.',
+                'job2_desc3': 'Создание баз данных (PostgreSQL), настройка веб-серверов (Ubuntu) и сертификатов.',
+                'job3_title': 'Системный администратор',
+                'job3_comp': 'ООО "Бери-Рули"',
+                'job3_date': 'Янв 2022 — Окт 2023',
+                'job3_desc1': 'Настройка сетевого оборудования (Keenetic, Mikrotik), VPN, Proxy.',
+                'job3_desc2': 'Виртуализация (VMware, Virtualbox), развертывание Ubuntu Server для сайтов.',
+                'job3_desc3': 'Настройка Active Directory, общих папок, резервное копирование (AcronisTI).',
+                'proj_title': 'Кустос (Kustos) — Telegram-бот',
+                'proj_comp': 'Fullstack / DevOps (Личный проект)',
+                'proj_desc': 'Разработка и развертывание отказоустойчивого SaaS-решения для защиты Telegram-чатов от спама. Обслуживает более 10 групп.',
+                'proj_li1': '<b>Архитектура:</b> Микросервисы (Python, FastAPI, Aiogram), хранение в PostgreSQL/SQLite.',
+                'proj_li2': '<b>DevOps & Сети:</b> Linux (Ubuntu), Nginx, Docker. Обход блокировок через Cloudflare Tunnel и Xray.',
+                'proj_li3': '<b>Отказоустойчивость:</b> Circuit Breaker для переключения между Amvera и VPS.',
+                'proj_li4': '<b>ML & OCR:</b> ML-фильтр (Scikit-learn) и Tesseract OCR для распознавания текста.',
+                'proj_link1': 'Живой бот',
+                'proj_link2': 'Лендинг',
+                'edu1_title': 'Высшее (2028)',
+                'edu1_sub': 'Таганрогский технологический институт ЮФУ — Прикладная математика и информатика',
+                'edu2_title': 'Среднее специальное (2023)',
+                'edu2_sub': 'Лермонтовский Региональный Многопрофильный Колледж — Программирование в компьютерных системах'
+            },
+            'en': {
+                'name': 'Zakhar<br>Sakharov',
+                'role': 'DevOps / SysAdmin / Linux',
+                'btn_pdf': 'Download PDF',
+                'sec_exp': 'Experience',
+                'sec_skills': 'Skills',
+                'sec_proj': 'Featured Projects',
+                'sec_edu': 'Education',
+                'job1_title': 'Head of IT Department',
+                'job1_comp': 'Historical Park "Russia - My History"',
+                'job1_date': 'Feb 2026 — Present',
+                'job1_desc1': 'IT department management, scheduling, labor protection.',
+                'job1_desc2': 'Procurement under 44-FZ, digital signatures, 1C documents.',
+                'job1_desc3': 'Event curation, CRM and Nextcloud, hardware inventory.',
+                'job2_title': 'System Administrator',
+                'job2_comp': 'Historical Park "Russia - My History"',
+                'job2_date': 'Jan 2025 — Feb 2026',
+                'job2_desc1': 'Administration of 300+ devices, AD, Firewall, DHCP, DNS.',
+                'job2_desc2': 'Network equipment setup (Juniper, Huawei, Unifi), VLAN.',
+                'job2_desc3': 'Databases (PostgreSQL), web servers (Ubuntu), certificates.',
+                'job3_title': 'System Administrator',
+                'job3_comp': 'Beri-Ruli LLC',
+                'job3_date': 'Jan 2022 — Oct 2023',
+                'job3_desc1': 'Network equipment (Keenetic, Mikrotik), VPN, Proxy.',
+                'job3_desc2': 'Virtualization (VMware, Virtualbox), Ubuntu Server deployment.',
+                'job3_desc3': 'Active Directory, shared folders, backups (AcronisTI).',
+                'proj_title': 'Kustos — Telegram Moderation Bot',
+                'proj_comp': 'Fullstack / DevOps (Personal Project)',
+                'proj_desc': 'Development and deployment of a fault-tolerant SaaS solution for Telegram chat protection. Serves 10+ groups.',
+                'proj_li1': '<b>Architecture:</b> Microservices (Python, FastAPI, Aiogram), PostgreSQL/SQLite.',
+                'proj_li2': '<b>DevOps & Network:</b> Linux (Ubuntu), Nginx, Docker. Bypassing blocks via Cloudflare Tunnel and Xray.',
+                'proj_li3': '<b>High Availability:</b> Circuit Breaker for switching between Amvera and VPS.',
+                'proj_li4': '<b>ML & OCR:</b> ML-filter (Scikit-learn) and Tesseract OCR for text recognition.',
+                'proj_link1': 'Live Bot',
+                'proj_link2': 'Landing',
+                'edu1_title': 'Higher Education (2028)',
+                'edu1_sub': 'Taganrog Institute of Technology SFedU — Applied Mathematics and Computer Science',
+                'edu2_title': 'Secondary Vocational (2023)',
+                'edu2_sub': 'Lermontov Regional Multidisciplinary College — Computer Systems Programming'
+            }
+        };
+
+        // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА ---
+        function setLang(lang) {
+            // Обновляем кнопки
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+            
+            // Меняем тексты
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            // Сохраняем выбор
+            localStorage.setItem('site_lang', lang);
+        }
+
+        // При загрузке проверяем сохраненный язык
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('site_lang') || 'ru';
+            if (savedLang === 'en') setLang('en');
+        });
+
+        // --- ПЛАВНЫЙ СКРОЛЛ ---
         const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // 2. Интерактивный терминал
+        // --- ТЕРМИНАЛ ---
         const termInput = document.getElementById('terminal-input');
         const termHistory = document.getElementById('terminal-history');
         const terminalBox = document.querySelector('.terminal');
@@ -496,7 +494,7 @@
             }
         });
 
-        // 3. GSAP Анимации
+        // --- GSAP АНИМАЦИИ ---
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('.fade-up').forEach(element => {
             gsap.from(element, {
@@ -509,7 +507,7 @@
             scaleY: 1, ease: "none"
         });
 
-        // 4. Кастомный курсор и кнопки
+        // --- КУРСОР И КНОПКИ ---
         const cursor = document.getElementById('cursor');
         const links = document.querySelectorAll('a, .skill');
         document.addEventListener('mousemove', (e) => {
@@ -531,7 +529,7 @@
             btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.3, ease: "power2.out" }));
         });
 
-        // 5. Пасхалка (Konami Code)
+        // --- ПАСХАЛКА ---
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
         document.addEventListener('keydown', (e) => {
