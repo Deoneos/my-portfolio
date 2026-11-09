@@ -8,6 +8,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
+    <!-- OG Теги для Telegram -->
+    <meta property="og:title" content="Захар Сахаров — DevOps Engineer">
+    <meta property="og:description" content="Портфолио: Linux, Docker, Kubernetes, CI/CD, Highload.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://resume.kustos.ru/">
+    <meta property="og:image" content="https://resume.kustos.ru/preview.jpg"> 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
@@ -23,12 +30,7 @@
             --accent-glow: rgba(0, 255, 204, 0.15);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
         body {
             background-color: var(--bg);
@@ -39,341 +41,146 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Кастомный курсор */
         .cursor {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             border: 1px solid var(--accent);
             border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
+            position: fixed; pointer-events: none; z-index: 9999;
             transform: translate(-50%, -50%);
             transition: width 0.3s, height 0.3s, background-color 0.3s;
             mix-blend-mode: difference;
         }
         .cursor.hovering {
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             background-color: rgba(255, 255, 255, 0.1);
             border-color: transparent;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 2;
-        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
 
         .bg-grid {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.2;
-            z-index: 0;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 50px 50px; opacity: 0.2; z-index: 0; pointer-events: none;
         }
 
-        header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
+        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
+
+        /* Статус Бейдж */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(39, 201, 63, 0.1); border: 1px solid rgba(39, 201, 63, 0.3);
+            color: #27c93f; padding: 6px 12px; border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace; font-size: 12px; margin-bottom: 20px; align-self: flex-start;
+        }
+        .status-dot { width: 8px; height: 8px; background-color: #27c93f; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(39, 201, 63, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0); }
         }
 
+        /* Интерактивный терминал */
         .terminal {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+            padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 14px;
+            max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: text;
         }
-
-        .terminal-header {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
+        .terminal-header { display: flex; gap: 8px; margin-bottom: 15px; }
         .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .dot.red { background: #ff5f56; }
-        .dot.yellow { background: #ffbd2e; }
-        .dot.green { background: #27c93f; }
-
-        .terminal-line { margin-bottom: 8px; }
+        .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
+        
+        .terminal-output { color: var(--muted); margin-bottom: 8px; white-space: pre-wrap; line-height: 1.4; }
+        .terminal-input-wrapper { display: flex; align-items: center; }
         .terminal-prompt { color: var(--accent); }
-        .terminal-text { color: var(--muted); }
-        .cursor-blink { animation: blink 1s step-end infinite; color: var(--accent); }
-        @keyframes blink { 50% { opacity: 0; } }
+        .terminal-input {
+            background: transparent; border: none; color: var(--accent);
+            font-family: 'JetBrains Mono', monospace; font-size: 14px;
+            outline: none; width: 100%; margin-left: 8px;
+        }
 
         h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 600;
-            letter-spacing: -0.05em;
-            line-height: 1.1;
-            margin-top: 40px;
-            background: linear-gradient(90deg, #fff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: clamp(3rem, 8vw, 6rem); font-weight: 600; letter-spacing: -0.05em; line-height: 1.1; margin-top: 40px;
+            background: linear-gradient(90deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--muted);
-            margin-bottom: 40px;
-            font-family: 'JetBrains Mono', monospace;
-        }
+        .subtitle { font-size: 1.2rem; color: var(--muted); margin-bottom: 40px; font-family: 'JetBrains Mono', monospace; }
 
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
         .contact-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 12px 24px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            display: inline-flex; align-items: center; gap: 10px; background: transparent;
+            border: 1px solid var(--accent); color: var(--accent); padding: 12px 24px; border-radius: 4px;
+            text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 14px;
+            transition: all 0.3s; position: relative; overflow: hidden;
         }
+        .contact-btn:hover { background: var(--accent-glow); box-shadow: 0 0 20px var(--accent-glow); }
 
-        .contact-btn:hover {
-            background: var(--accent-glow);
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
+        section { padding: 100px 0; position: relative; z-index: 1; }
+        .section-title { font-size: 2rem; font-weight: 500; margin-bottom: 50px; display: flex; align-items: center; gap: 20px; }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .section-num { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 1rem; }
 
-        section {
-            padding: 100px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 500;
-            margin-bottom: 50px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .section-num {
-            color: var(--accent);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background: var(--border);
-            transform-origin: top;
-            transform: scaleY(0);
-        }
-
-        .timeline-line-active {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background: var(--accent);
-            transform-origin: top;
-            transform: scaleY(0);
-        }
-
-        .job {
-            position: relative;
-            margin-bottom: 50px;
-        }
-
-        .job::before {
-            content: '';
-            position: absolute;
-            left: -36px;
-            top: 6px;
-            width: 14px;
-            height: 14px;
-            background: var(--bg);
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            z-index: 2;
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
+        /* Таймлайн */
+        .timeline { position: relative; padding-left: 30px; }
+        .timeline-line { position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: var(--border); transform-origin: top; transform: scaleY(0); }
+        .timeline-line-active { position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: var(--accent); transform-origin: top; transform: scaleY(0); }
+        .job { position: relative; margin-bottom: 50px; }
+        .job::before { content: ''; position: absolute; left: -36px; top: 6px; width: 14px; height: 14px; background: var(--bg); border: 2px solid var(--accent); border-radius: 50%; z-index: 2; box-shadow: 0 0 10px var(--accent-glow); }
+        
+        .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
         .job-title { font-size: 1.3rem; font-weight: 600; }
         .job-company { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
-        .job-date { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 0.85rem; 
-            color: var(--muted);
-            background: var(--surface);
-            padding: 4px 10px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-        }
+        .job-date { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border); }
+        
+        .job-desc ul { list-style: none; color: var(--muted); }
+        .job-desc li { position: relative; padding-left: 20px; margin-bottom: 8px; }
+        .job-desc li::before { content: '>'; position: absolute; left: 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: bold; }
 
-        .job-desc ul {
-            list-style: none;
-            color: var(--muted);
-        }
+        /* Проекты */
+        .project-card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 30px; border-radius: 8px; margin-bottom: 20px; transition: transform 0.3s, box-shadow 0.3s; }
+        .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 255, 204, 0.05); }
+        .project-links { margin-top: 20px; display: flex; gap: 15px; }
+        .project-link { color: var(--accent); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; border-bottom: 1px dashed var(--accent); transition: opacity 0.3s; }
+        .project-link:hover { opacity: 0.7; }
 
-        .job-desc li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 8px;
-        }
+        /* Навыки */
+        .skills { display: flex; flex-wrap: wrap; gap: 12px; }
+        .skill { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; color: var(--muted); transition: all 0.3s; }
+        .skill:hover { border-color: var(--accent); color: var(--text); box-shadow: 0 0 15px var(--accent-glow); }
 
-        .job-desc li::before {
-            content: '>';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .skill {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--muted);
-            transition: all 0.3s;
-        }
-
-        .skill:hover {
-            border-color: var(--accent);
-            color: var(--text);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .edu-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            transition: border-color 0.3s;
-        }
+        /* Образование */
+        .edu-card { background: var(--surface); border: 1px solid var(--border); padding: 25px; border-radius: 8px; margin-bottom: 20px; transition: border-color 0.3s; }
         .edu-card:hover { border-color: var(--accent); }
         .edu-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
         .edu-sub { color: var(--muted); font-size: 0.95rem; }
 
+        footer { padding: 50px 0; text-align: center; color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; border-top: 1px solid var(--border); }
 
-        .project-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--accent);
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.05);
-        }
-        .project-links {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-        }
-        .project-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            border-bottom: 1px dashed var(--accent);
-            transition: opacity 0.3s;
-        }
-        .project-link:hover {
-            opacity: 0.7;
+        /* Печать PDF */
+        @media print {
+            body { background: white !important; color: black !important; }
+            .cursor, .terminal, .contact-btn, .bg-grid, .status-badge, .magnetic, button, .project-links, footer { display: none !important; }
+            h1 { color: black !important; -webkit-text-fill-color: black !important; margin-top: 0; }
+            .subtitle { color: #333 !important; }
+            .job-company { color: #0066cc !important; }
+            .section-title { color: black !important; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+            .job-desc ul, .edu-sub { color: #444 !important; }
+            .job-date { border: 1px solid #ccc; color: #333; }
+            .job::before { border-color: #333; box-shadow: none; }
+            .timeline-line-active { background: #333 !important; transform: scaleY(1) !important; }
+            .skill { border: 1px solid #ccc; color: #333; background: transparent; }
+            .project-card { border: 1px solid #ccc; background: transparent; box-shadow: none; border-left-color: #333; }
         }
 
-
-        .project-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--accent);
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
+        /* Пасхалка Hacker Mode */
+        body.hacker-mode {
+            --accent: #00ff00; --accent-glow: rgba(0, 255, 0, 0.3);
+            --bg: #000000; --surface: #0a0a0a; --border: #003300;
+            --text: #00ff00; --muted: #008800;
         }
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.05);
-        }
-        .project-links {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-        }
-        .project-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            border-bottom: 1px dashed var(--accent);
-            transition: opacity 0.3s;
-        }
-        .project-link:hover {
-            opacity: 0.7;
-        }
-
-        footer {
-            padding: 50px 0;
-            text-align: center;
-            color: var(--muted);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-        }
+        body.hacker-mode h1 { background: linear-gradient(90deg, #00ff00, #005500); -webkit-background-clip: text; }
+        body.hacker-mode .bg-grid { opacity: 0.4; }
 
         @media (max-width: 768px) {
             .job-header { flex-direction: column; align-items: flex-start; }
@@ -383,39 +190,43 @@
     </style>
 </head>
 <body>
-
     <div class="bg-grid"></div>
     <div class="cursor" id="cursor"></div>
 
     <div class="container">
         <header>
+            <div class="status-badge">
+                <span class="status-dot"></span> Server Status: 200 OK
+            </div>
+            
             <div class="terminal">
                 <div class="terminal-header">
-                    <div class="dot red"></div>
-                    <div class="dot yellow"></div>
-                    <div class="dot green"></div>
+                    <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
                 </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">root@kustos:~#</span> <span class="terminal-text">whoami</span>
+                <div class="terminal-output" id="terminal-history">
+> Initializing profile...<br>> Role: DevOps / SysAdmin<br>> Status: Online.<br>> Ready to build scalable infrastructure.<br>
                 </div>
-                <div class="terminal-line" id="typed-text"></div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">root@kustos:~#</span> <span class="cursor-blink">_</span>
+                <div class="terminal-input-wrapper">
+                    <span class="terminal-prompt">root@kustos:~#</span>
+                    <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="Введите команду (help)...">
                 </div>
             </div>
 
             <h1>Захар<br>Сахаров</h1>
             <div class="subtitle">DevOps / SysAdmin / Linux</div>
             
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <div class="btn-group">
                 <a href="https://t.me/zakharsakharov" target="_blank" class="contact-btn magnetic">Telegram</a>
                 <a href="mailto:zaharsaharov25@gmail.com" class="contact-btn magnetic">Email</a>
+                <a href="#" onclick="window.print(); return false;" class="contact-btn magnetic" style="border-color: var(--text); color: var(--text);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Скачать PDF
+                </a>
             </div>
         </header>
 
         <section id="experience">
             <h2 class="section-title"><span class="section-num">01.</span> Опыт работы</h2>
-            
             <div class="timeline">
                 <div class="timeline-line"></div>
                 <div class="timeline-line-active"></div>
@@ -476,24 +287,15 @@
         <section id="skills">
             <h2 class="section-title"><span class="section-num">02.</span> Навыки</h2>
             <div class="skills fade-up">
-                <span class="skill">Linux (Ubuntu)</span>
-                <span class="skill">Docker / Docker-compose</span>
-                <span class="skill">Kubernetes</span>
-                <span class="skill">GitLab CI</span>
-                <span class="skill">Bash</span>
-                <span class="skill">PostgreSQL</span>
-                <span class="skill">REST API</span>
-                <span class="skill">Active Directory</span>
-                <span class="skill">Zabbix / Мониторинг</span>
-                <span class="skill">Сети (VLAN, DNS, VPN)</span>
-                <span class="skill">VMware</span>
-                <span class="skill">Python</span>
+                <span class="skill">Linux (Ubuntu)</span><span class="skill">Docker / Docker-compose</span><span class="skill">Kubernetes</span>
+                <span class="skill">GitLab CI</span><span class="skill">Bash</span><span class="skill">PostgreSQL</span>
+                <span class="skill">REST API</span><span class="skill">Active Directory</span><span class="skill">Zabbix / Мониторинг</span>
+                <span class="skill">Сети (VLAN, DNS, VPN)</span><span class="skill">VMware</span><span class="skill">Python</span>
             </div>
         </section>
 
         <section id="projects">
             <h2 class="section-title"><span class="section-num">04.</span> Избранные проекты</h2>
-            
             <div class="project-card fade-up">
                 <div class="job-header">
                     <div>
@@ -504,27 +306,19 @@
                 </div>
                 <div class="job-desc" style="margin-top: 15px;">
                     <p style="color: var(--text); margin-bottom: 15px;">
-                        Разработка и развертывание отказоустойчивого SaaS-решения для защиты Telegram-чатов от спама и нежелательного контента. Обслуживает более 10 групп с общей аудиторией.
+                        Разработка и развертывание отказоустойчивого SaaS-решения для защиты Telegram-чатов от спама. Обслуживает более 10 групп с общей аудиторией.
                     </p>
                     <ul>
                         <li><b>Архитектура:</b> Микросервисная архитектура (Python, FastAPI, Aiogram), хранение данных в PostgreSQL/SQLite.</li>
                         <li><b>DevOps & Сети:</b> Развертывание на Linux (Ubuntu), настройка Nginx, Docker. Обход блокировок РКН через Cloudflare Tunnel и Xray (VLESS+WS+TLS).</li>
-                        <li><b>Отказоустойчивость:</b> Реализован Circuit Breaker (предохранитель) для автоматического переключения бота между основным и резервным серверами (Amvera / VPS).</li>
-                        <li><b>ML & OCR:</b> Внедрение ML-фильтра (Scikit-learn) для выявления скрытого спама и Tesseract OCR для распознавания текста на картинках/GIF.</li>
+                        <li><b>Отказоустойчивость:</b> Реализован Circuit Breaker для автоматического переключения бота между основным и резервным серверами (Amvera / VPS).</li>
+                        <li><b>ML & OCR:</b> Внедрение ML-фильтра (Scikit-learn) для скрытого спама и Tesseract OCR для распознавания текста на картинках/GIF.</li>
                     </ul>
-                    
                     <div class="skills" style="margin-top: 20px;">
-                        <span class="skill">Python</span>
-                        <span class="skill">FastAPI</span>
-                        <span class="skill">Aiogram</span>
-                        <span class="skill">Docker</span>
-                        <span class="skill">Nginx</span>
-                        <span class="skill">Cloudflare API</span>
-                        <span class="skill">Xray</span>
-                        <span class="skill">SQLite</span>
-                        <span class="skill">Tesseract</span>
+                        <span class="skill">Python</span><span class="skill">FastAPI</span><span class="skill">Aiogram</span>
+                        <span class="skill">Docker</span><span class="skill">Nginx</span><span class="skill">Cloudflare API</span>
+                        <span class="skill">Xray</span><span class="skill">SQLite</span><span class="skill">Tesseract</span>
                     </div>
-
                     <div class="project-links">
                         <a href="https://t.me/ANTI_SPAM_MWKbot" target="_blank" class="project-link">[ Живой бот в Telegram ]</a>
                         <a href="https://kustos.ru" target="_blank" class="project-link">[ Лендинг проекта ]</a>
@@ -553,72 +347,58 @@
     </div>
 
     <script>
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smooth: true,
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
+        // 1. Плавный скролл
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        const text = "> Initializing profile...\n> Role: DevOps / SysAdmin\n> Status: Online.\n> Ready to build scalable infrastructure.";
-        let i = 0;
-        const speed = 30;
+        // 2. Интерактивный терминал
+        const termInput = document.getElementById('terminal-input');
+        const termHistory = document.getElementById('terminal-history');
+        const terminalBox = document.querySelector('.terminal');
         
-        function typeWriter() {
-            if (i < text.length) {
-                document.getElementById("typed-text").innerHTML = text.substring(0, i).replace(/\n/g, '<br>') + '<span class="cursor-blink">_</span>';
-                i++;
-                setTimeout(typeWriter, speed);
-            } else {
-                document.getElementById("typed-text").innerHTML = text.replace(/\n/g, '<br>');
+        terminalBox.addEventListener('click', () => termInput.focus());
+        
+        const commands = {
+            'help': 'Доступные команды:<br>  whoami  - Информация обо мне<br>  skills  - Мой стек технологий<br>  contact - Способы связи<br>  clear   - Очистить терминал',
+            'whoami': 'Захар Сахаров, 23 года.<br>DevOps Engineer / SysAdmin.<br>Специализируюсь на Linux, сетях и автоматизации.',
+            'skills': 'Linux, Docker, Kubernetes, GitLab CI, Python, PostgreSQL, Nginx, Zabbix, Ansible.',
+            'contact': 'Telegram: @zakharsakharov<br>Email: zaharsaharov25@gmail.com<br>GitHub: github.com/Deoneos',
+            'sudo': 'Permission denied. Вы не в белом списке. 🙃',
+            'ls': 'portfolio.html  resume.pdf  secret.txt',
+            'cat secret.txt': 'Все технологии, которые вы ищете, уже есть в разделе "Навыки" ;)'
+        };
+
+        termInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value.trim().toLowerCase();
+                this.value = '';
+                if (cmd === 'clear') { termHistory.innerHTML = ''; return; }
+                const response = commands[cmd] || `bash: ${cmd}: command not found. Введите 'help'.`;
+                termHistory.innerHTML += `<div style="margin-top: 10px;"><span class="terminal-prompt">> ${cmd}</span><br>${response}</div>`;
+                terminalBox.scrollTop = terminalBox.scrollHeight;
             }
-        }
-        setTimeout(typeWriter, 1000);
+        });
 
+        // 3. GSAP Анимации
         gsap.registerPlugin(ScrollTrigger);
-
         gsap.utils.toArray('.fade-up').forEach(element => {
             gsap.from(element, {
-                scrollTrigger: {
-                    trigger: element,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                },
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                ease: "power3.out"
+                scrollTrigger: { trigger: element, start: "top 85%", toggleActions: "play none none reverse" },
+                y: 50, opacity: 0, duration: 0.8, ease: "power3.out"
             });
         });
-
         gsap.to('.timeline-line-active', {
-            scrollTrigger: {
-                trigger: '.timeline',
-                start: "top 60%",
-                end: "bottom 80%",
-                scrub: 1
-            },
-            scaleY: 1,
-            ease: "none"
+            scrollTrigger: { trigger: '.timeline', start: "top 60%", end: "bottom 80%", scrub: 1 },
+            scaleY: 1, ease: "none"
         });
 
+        // 4. Кастомный курсор и кнопки
         const cursor = document.getElementById('cursor');
         const links = document.querySelectorAll('a, .skill');
-
         document.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.1,
-                ease: "power2.out"
-            });
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
         });
-
         links.forEach(link => {
             link.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
             link.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
@@ -632,9 +412,25 @@
                 const y = e.clientY - rect.top - rect.height / 2;
                 gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: "power2.out" });
             });
-            btn.addEventListener('mouseleave', () => {
-                gsap.to(btn, { x: 0, y: 0, duration: 0.3, ease: "power2.out" });
-            });
+            btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.3, ease: "power2.out" }));
+        });
+
+        // 5. Пасхалка (Konami Code)
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    document.body.classList.toggle('hacker-mode');
+                    konamiIndex = 0;
+                    const msg = document.createElement('div');
+                    msg.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#00ff00;color:#000;padding:10px 20px;border-radius:5px;font-family:monospace;font-weight:bold;z-index:9999;';
+                    msg.textContent = document.body.classList.contains('hacker-mode') ? 'HACKER MODE: ON' : 'HACKER MODE: OFF';
+                    document.body.appendChild(msg);
+                    setTimeout(() => msg.remove(), 2000);
+                }
+            } else { konamiIndex = 0; }
         });
     </script>
 </body>
